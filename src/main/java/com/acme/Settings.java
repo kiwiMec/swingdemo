@@ -1,0 +1,76 @@
+package com.acme;
+
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import javax.swing.JPanel;
+
+public class Settings extends JPanel implements KeyListener {
+
+    private final JPanel cards;
+    private int width, height, numberOfSnakes;
+    private boolean usePills;
+
+    Settings(JPanel cards) {
+
+        // store the initial settings
+        this.cards = cards;
+        this.width = 600;
+        this.height = 600;
+        this.numberOfSnakes = 1;
+        this.usePills = true;
+
+        // set up this panel
+        setPreferredSize(new Dimension(width, height));
+        setBackground(Color.BLUE);
+        addKeyListener(this);
+        setFocusable(true);
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_P:
+                usePills = !usePills;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                CardLayout layout = (CardLayout) (cards.getLayout());
+                layout.show(cards, "BOARD");
+                cards.transferFocus();
+                break;
+        }
+    }
+
+    public JPanel getCards() {
+        return this.cards;
+    }
+
+    public int getWidth() {
+        return this.width;
+    }
+
+    public int getHeight() {
+        return this.height;
+    }
+
+    public int getNumberOfSnakes() {
+        return this.numberOfSnakes;
+    }
+
+    public boolean usePills() {
+        return this.usePills;
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        // not needed
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        // not needed
+    }
+
+}
