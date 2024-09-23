@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Walls implements Piece {
@@ -56,7 +57,7 @@ public class Walls implements Piece {
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent, LinkedList<Piece> pieces) {
+    public void actionPerformed(ActionEvent actionEvent, Board board, ArrayList<Piece> pieces) {
         // walls are pretty inactive things really
     }
 

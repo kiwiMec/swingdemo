@@ -3,7 +3,7 @@ package com.acme;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.Graphics;
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public interface Piece {
 
@@ -11,7 +11,7 @@ public interface Piece {
         WALL, FOOD, SNAKE
     };
 
-    public void actionPerformed(ActionEvent actionEvent, LinkedList<Piece> pieces);
+    public void actionPerformed(ActionEvent actionEvent, Board board, ArrayList<Piece> pieces);
 
     public boolean isOn(Tile tile);
 

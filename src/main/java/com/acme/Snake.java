@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Snake implements Piece {
@@ -22,9 +23,13 @@ public class Snake implements Piece {
         isCollision = false;
     }
 
-    private final void eat() {
+    private final void eat(Food food) {
+        if (food.getState() == Food.State.EATEN) {
+            return;
+        }
         body.addFirst(head);
         head = head.getNextTile(direction);
+        food.setState(Food.State.EATEN);
     }
 
     private final void move() {
@@ -48,7 +53,7 @@ public class Snake implements Piece {
     }
 
     @Override
-    public final void actionPerformed(ActionEvent actionEvent, LinkedList<Piece> pieces) {
+    public final void actionPerformed(ActionEvent actionEvent, Board board, ArrayList<Piece> pieces) {
         if (isAlive && direction != Direction.NONE) {
             isCollision = false;
             Tile nextTile = head.getNextTile(direction);
@@ -57,7 +62,8 @@ public class Snake implements Piece {
                     this.isCollision = true;
                     switch (piece.getPieceType()) {
                         case FOOD:
-                            eat();
+                            Food food = (Food)(piece);
+                            eat(food);
                             break;
                         case SNAKE:
                             die();
@@ -116,7 +122,6 @@ public class Snake implements Piece {
                     direction = Direction.RIGHT;
                 }
                 break;
-
             default:
                 break;
         }

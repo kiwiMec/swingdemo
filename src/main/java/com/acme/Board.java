@@ -10,11 +10,19 @@ import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import com.acme.Food.State;
+
+import java.util.Iterator;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
+
 
 public class Board extends JPanel implements ActionListener, KeyListener {
 
-    LinkedList<Piece> pieces;
+    ArrayList<Piece> pieces;
+    Random random;
     Settings settings;
     Timer actionLoop;
 
@@ -27,13 +35,47 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         setFocusable(true);
 
-        pieces = new LinkedList<Piece>();
+        random = new Random();
+        pieces = new ArrayList<Piece>();
 
         pieces.add(new Walls(settings));
         pieces.add(new Snake(new Tile(10, 10, settings.getTileWidth(), settings.getTileHeight())));
+        addFood();
 
-        actionLoop = new Timer(100, this);
+        actionLoop = new Timer(200, this);
         actionLoop.start();
+    }
+
+    private Tile getRandomTile() {
+        int x = random.nextInt(settings.getBoardWidth() / settings.getTileWidth());
+        int y = random.nextInt(settings.getBoardHeight() / settings.getTileHeight());
+        return new Tile(x, y, settings.getTileWidth(), settings.getTileHeight());
+    }
+
+    private boolean isOccupied(Tile tile) {
+        return !isVacant(tile);
+    }
+
+    private boolean isVacant(Tile tile) {
+        Iterator<Piece> it = pieces.iterator();
+        while (it.hasNext()) {
+            if (it.next().isOn(tile)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Food getNewFood() {
+        Tile tile = getRandomTile();
+        while (isOccupied(tile)) {
+            tile = getRandomTile();
+        }
+        return new Food(tile);
+    }
+
+    public void addFood(){
+        pieces.add(getNewFood());
     }
 
     @Override
@@ -67,8 +109,20 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent actionEvent) {
         // perform any actions prior to painting the pieces
         pieces.forEach(piece -> {
-            piece.actionPerformed(actionEvent, pieces);
+            piece.actionPerformed(actionEvent, this, pieces);
         });
+        // replace any eaten fruit
+        for (int i = 0; i < pieces.size(); i++) {
+            Piece piece = pieces.get(i);
+            if (piece.getPieceType() == Piece.pieceType.FOOD) {
+                Food food = (Food)(piece);
+                if (food.getState() == State.EATEN) {
+                    pieces.remove(piece);
+                    addFood();
+                }
+            }
+
+        }
         // then repaint everything
         repaint();
     }

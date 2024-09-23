@@ -37,7 +37,7 @@ public class Settings extends JPanel implements KeyListener {
                 break;
             case KeyEvent.VK_ESCAPE:
                 CardLayout layout = (CardLayout) (cards.getLayout());
-                layout.show(cards, "BOARD");
+                layout.show(cards, "GAMEBOARD");
                 cards.transferFocus();
                 break;
         }

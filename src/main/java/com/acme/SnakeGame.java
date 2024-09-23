@@ -13,7 +13,7 @@ public final class SnakeGame {
         Settings settings = new Settings(cards);
         cards.add(settings, "SETTINGS");
         Board board = new Board(settings);
-        cards.add(board, "BOARD");
+        cards.add(board, "GAMEBOARD");
 
         // create the window and add the panels
         JFrame frame = new JFrame("frame");
@@ -24,8 +24,8 @@ public final class SnakeGame {
         frame.add(cards);
         frame.setVisible(true);
 
-        // show board first
-        ((CardLayout)(cards.getLayout())).show(cards, "BOARD");
+        // show game board first
+        ((CardLayout)(cards.getLayout())).show(cards, "GAMEBOARD");
         cards.transferFocus();
     }
 
