@@ -17,7 +17,7 @@ public final class App {
 
         // create the window and add the panels
         JFrame frame = new JFrame("frame");
-        frame.setSize(settings.getWidth(), settings.getHeight());
+        frame.setSize(settings.getBoardWidth(), settings.getBoardHeight());
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

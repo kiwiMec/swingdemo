@@ -1,12 +1,17 @@
 package com.acme;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 public final class Tile {
 
-    private int x, y;
+    private int x, y, width, height;
 
-    Tile(int x, int y) {
+    Tile(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
+        this.width = width;
+        this.height = height;
     }
 
     final public Tile getNextTile(Direction direction) {
@@ -27,11 +32,16 @@ public final class Tile {
                 break;
             default:
         }
-        return new Tile(x, y);
+        return new Tile(x, y, width, height);
     }
 
     final public boolean isTheSameAs(Tile other) {
         return this.x == other.x && this.y == other.y;
     }
 
+    final public void paint(Graphics graphics, Color color){
+
+        graphics.setColor(color);
+        graphics.fillRect(x * width, y * width, width, width);
+    }
 }

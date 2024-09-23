@@ -7,25 +7,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import java.util.LinkedList;
 
 public class Board extends JPanel implements ActionListener, KeyListener {
 
-    Timer actionLoop;
+    LinkedList<Piece> pieces;
     Settings settings;
+    Timer actionLoop;
 
     Board(Settings settings) {
 
         this.settings = settings;
 
-        setPreferredSize(new Dimension(settings.getWidth(), settings.getHeight()));
+        setPreferredSize(new Dimension(settings.getBoardWidth(), settings.getBoardHeight()));
         setBackground(Color.GREEN);
         addKeyListener(this);
         setFocusable(true);
 
+        pieces = new LinkedList<Piece>();
+
+        pieces.add(new Snake(new Tile(10, 10, settings.getTileWidth(), settings.getTileHeight())));
+
         actionLoop = new Timer(100, this);
         actionLoop.start();
+    }
+
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+        pieces.forEach(n -> {n.paint(graphics);});
     }
 
     @Override
@@ -41,18 +54,15 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // move();
+        pieces.forEach(n -> {
+            n.move();
+        });
         repaint();
     }
 
     @Override
-    public void keyTyped(KeyEvent e) {
-        // not needed
-    }
+    public void keyTyped(KeyEvent e) { /* not needed */ }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        // not needed
-    }
-
+    public void keyReleased(KeyEvent e) { /* not needed */ }
 }
