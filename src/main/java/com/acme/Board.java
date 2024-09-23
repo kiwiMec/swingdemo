@@ -23,7 +23,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         this.settings = settings;
 
         setPreferredSize(new Dimension(settings.getBoardWidth(), settings.getBoardHeight()));
-        setBackground(Color.GREEN);
+        setBackground(Color.darkGray);
         addKeyListener(this);
         setFocusable(true);
 
@@ -38,31 +38,41 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     @Override
     public void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
-        pieces.forEach(n -> {n.paint(graphics);});
+        pieces.forEach(piece -> {
+            piece.paint(graphics);
+        });
     }
 
     @Override
-    public void keyPressed(KeyEvent e) {
-        switch (e.getKeyCode()) {
+    public void keyPressed(KeyEvent keyEvent) {
+        switch (keyEvent.getKeyCode()) {
+            // change to the settings screen
             case KeyEvent.VK_ESCAPE:
                 CardLayout cardLayout = (CardLayout) (settings.getCards().getLayout());
                 cardLayout.show(settings.getCards(), "SETTINGS");
                 settings.getCards().transferFocus();
                 break;
+            // let the pieces know that the key has been pressed
+            default:
+                pieces.forEach(piece -> {
+                    piece.keyPressed(keyEvent);
+                });
         }
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        pieces.forEach(n -> {
-            n.move();
+    public void actionPerformed(ActionEvent actionEvent) {
+        pieces.forEach(piece -> {
+            piece.actionPerformed(actionEvent);
         });
         repaint();
     }
 
     @Override
-    public void keyTyped(KeyEvent e) { /* not needed */ }
+    public void keyTyped(KeyEvent e) {
+        /* not needed */ }
 
     @Override
-    public void keyReleased(KeyEvent e) { /* not needed */ }
+    public void keyReleased(KeyEvent e) {
+        /* not needed */ }
 }
