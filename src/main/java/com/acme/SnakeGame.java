@@ -25,7 +25,8 @@ public final class SnakeGame {
         frame.setVisible(true);
 
         // show board first
-        board.requestFocus();
+        ((CardLayout)(cards.getLayout())).show(cards, "BOARD");
+        cards.transferFocus();
     }
 
 }
