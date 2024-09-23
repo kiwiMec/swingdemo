@@ -29,6 +29,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         pieces = new LinkedList<Piece>();
 
+        pieces.add(new Walls(settings));
         pieces.add(new Snake(new Tile(10, 10, settings.getTileWidth(), settings.getTileHeight())));
 
         actionLoop = new Timer(100, this);
@@ -37,7 +38,9 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void paintComponent(Graphics graphics) {
+        // paint the standard bits and bobs
         super.paintComponent(graphics);
+        // then paint the pieces
         pieces.forEach(piece -> {
             piece.paint(graphics);
         });
@@ -62,9 +65,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
     @Override
     public void actionPerformed(ActionEvent actionEvent) {
+        // perform any actions prior to painting the pieces
         pieces.forEach(piece -> {
-            piece.actionPerformed(actionEvent);
+            piece.actionPerformed(actionEvent, pieces);
         });
+        // then repaint everything
         repaint();
     }
 

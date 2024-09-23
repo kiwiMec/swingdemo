@@ -11,43 +11,78 @@ public class Snake implements Piece {
     private Direction direction;
     private Tile head;
     private LinkedList<Tile> body;
+    private boolean isAlive;
+    private boolean isCollision;
 
     Snake(Tile head) {
-        this.direction = Direction.NONE;
         this.head = head;
-        this.body = new LinkedList<Tile>();
+        body = new LinkedList<Tile>();
+        direction = Direction.NONE;
+        isAlive = true;
+        isCollision = false;
     }
 
-    private void eat() {
+    private final void eat() {
         body.addFirst(head);
         head = head.getNextTile(direction);
     }
 
-    private void move() {
+    private final void move() {
         body.addFirst(head);
         head = head.getNextTile(direction);
         body.removeLast();
     }
 
-    private void die() {
+    private final void die() {
+        isAlive = false;
     }
 
     @Override
-    public boolean collidesWith(Piece piece) {
-        // TODO Auto-generated method stub
+    public final boolean isOn(Tile tile) {
+        if (head.isTheSameAs(tile))
+            return true;
+        body.forEach(bodyTile -> {
+            bodyTile.isTheSameAs(tile);
+        });
         return false;
     }
 
     @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-        // TODO detect collisions and respond accordingly
-        move();
-        //eat();
-        //die();
+    public final void actionPerformed(ActionEvent actionEvent, LinkedList<Piece> pieces) {
+        if (isAlive && direction != Direction.NONE) {
+            isCollision = false;
+            Tile nextTile = head.getNextTile(direction);
+            pieces.forEach(piece -> {
+                if (piece.isOn(nextTile)) {
+                    this.isCollision = true;
+                    switch (piece.getPieceType()) {
+                        case FOOD:
+                            eat();
+                            break;
+                        case SNAKE:
+                            die();
+                            break;
+                        case WALL:
+                            die();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+            if (isCollision == false) {
+                move();
+            }
+        }
     }
 
     @Override
-    public void paint(Graphics graphics) {
+    public final pieceType getPieceType() {
+        return Piece.pieceType.SNAKE;
+    }
+
+    @Override
+    public final void paint(Graphics graphics) {
         // draw the head tile
         head.paint(graphics, Color.WHITE);
 
@@ -58,7 +93,7 @@ public class Snake implements Piece {
     }
 
     @Override
-    public void keyPressed(KeyEvent event) {
+    public final void keyPressed(KeyEvent event) {
         int keyPressed = event.getKeyCode();
         switch (keyPressed) {
             case KeyEvent.VK_UP:
