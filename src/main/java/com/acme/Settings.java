@@ -14,7 +14,6 @@ public class Settings extends JPanel implements KeyListener {
     private boolean usePills;
 
     Settings(JPanel cards) {
-
         // store the initial settings
         this.cards = cards;
         this.boardWidth = 600;
@@ -23,7 +22,6 @@ public class Settings extends JPanel implements KeyListener {
         this.tileHeight = 25;
         this.numberOfSnakes = 1;
         this.usePills = true;
-
         // set up this panel
         setPreferredSize(new Dimension(boardWidth, boardHeight));
         setBackground(Color.BLUE);
