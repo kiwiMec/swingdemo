@@ -3,6 +3,8 @@ package com.acme;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
@@ -30,6 +32,13 @@ public class Settings extends JPanel implements KeyListener {
         setBackground(Color.LIGHT_GRAY);
         addKeyListener(this);
         setFocusable(true);
+        this.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent arg0) {
+                frame.setTitle("Snakegame: Settings");
+            }
+            public void focusLost(FocusEvent focusEvent) {
+            }
+        });
     }
 
     @Override
