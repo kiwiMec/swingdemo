@@ -15,9 +15,7 @@ import com.acme.Food.State;
 
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
-
 
 public class Board extends JPanel implements ActionListener, KeyListener {
 
@@ -36,14 +34,18 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
 
         random = new Random();
-        pieces = new ArrayList<Piece>();
 
-        pieces.add(new Walls(settings));
-        pieces.add(new Snake(new Tile(10, 10, settings.getTileWidth(), settings.getTileHeight())));
-        addFood();
+        addInitialPieces();
 
         actionLoop = new Timer(200, this);
         actionLoop.start();
+    }
+
+    private void addInitialPieces() {
+        pieces = new ArrayList<Piece>();
+        pieces.add(new Walls(settings));
+        pieces.add(new Snake(new Tile(10, 10, settings.getTileWidth(), settings.getTileHeight())));
+        addFood();
     }
 
     private Tile getRandomTile() {
@@ -74,7 +76,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         return new Food(tile);
     }
 
-    public void addFood(){
+    public void addFood() {
         pieces.add(getNewFood());
     }
 
@@ -91,6 +93,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
+            // restart the game
+            case KeyEvent.VK_R:
+                pieces.clear();
+                addInitialPieces();
+                break;
             // change to the settings screen
             case KeyEvent.VK_ESCAPE:
                 CardLayout cardLayout = (CardLayout) (settings.getCards().getLayout());
@@ -111,17 +118,23 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         pieces.forEach(piece -> {
             piece.actionPerformed(actionEvent, this, pieces);
         });
-        // replace any eaten fruit
+        /*
+         * replace any eaten fruit
+         * 
+         * When we modify the list of Pieces we have to use an array to
+         * access the individual pieces, as iterators get grumpy about having
+         * their underlying data structure changed while the iterator is still
+         * being used.
+         */
         for (int i = 0; i < pieces.size(); i++) {
             Piece piece = pieces.get(i);
             if (piece.getPieceType() == Piece.pieceType.FOOD) {
-                Food food = (Food)(piece);
+                Food food = (Food) (piece);
                 if (food.getState() == State.EATEN) {
                     pieces.remove(piece);
                     addFood();
                 }
             }
-
         }
         // then repaint everything
         repaint();

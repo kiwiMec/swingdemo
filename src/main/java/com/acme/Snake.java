@@ -46,9 +46,11 @@ public class Snake implements Piece {
     public final boolean isOn(Tile tile) {
         if (head.isTheSameAs(tile))
             return true;
-        body.forEach(bodyTile -> {
-            bodyTile.isTheSameAs(tile);
-        });
+        for (int i = 0; i < body.size(); i++) {
+            if (body.get(i).isTheSameAs(tile)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -62,7 +64,7 @@ public class Snake implements Piece {
                     this.isCollision = true;
                     switch (piece.getPieceType()) {
                         case FOOD:
-                            Food food = (Food)(piece);
+                            Food food = (Food) (piece);
                             eat(food);
                             break;
                         case SNAKE:
@@ -91,7 +93,6 @@ public class Snake implements Piece {
     public final void paint(Graphics graphics) {
         // draw the head tile
         head.paint(graphics, Color.WHITE);
-
         // draw the body tiles
         body.forEach(n -> {
             n.paint(graphics, Color.RED);
@@ -125,7 +126,5 @@ public class Snake implements Piece {
             default:
                 break;
         }
-
     }
-
 }

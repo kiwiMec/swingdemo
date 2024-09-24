@@ -11,6 +11,8 @@ public class Food implements Piece {
     enum State {
         FRESH,
         SOUR,
+        ROTTEN,
+        DECOMPOSED,
         EATEN
     }
 
@@ -57,12 +59,14 @@ public class Food implements Piece {
             tile.paint(graphics, Color.GREEN);
             break;
             case SOUR:
+            tile.paint(graphics, Color.ORANGE);
+            break;
+            case ROTTEN:
             tile.paint(graphics, Color.MAGENTA);
             break;
-            case EATEN:
-            // we do not draw eaten fruit
+            case EATEN,DECOMPOSED:
+            // we do not draw fruit that has been eaten or has decomposed
             break;
         }
     }
-
 }
