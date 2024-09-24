@@ -6,16 +6,19 @@ import java.awt.Dimension;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import javax.swing.JPanel;
+import javax.swing.JFrame;
 
 public class Settings extends JPanel implements KeyListener {
 
     private final JPanel cards;
     private int boardWidth, boardHeight, tileWidth, tileHeight, numberOfSnakes;
     private boolean usePills;
+    private JFrame frame;
 
-    Settings(JPanel cards) {
+    Settings(JPanel cards, JFrame frame) {
         // store the initial settings
         this.cards = cards;
+        this.frame = frame;
         this.boardWidth = 600;
         this.boardHeight = 600;
         this.tileWidth = 25;
@@ -24,7 +27,7 @@ public class Settings extends JPanel implements KeyListener {
         this.usePills = true;
         // set up this panel
         setPreferredSize(new Dimension(boardWidth, boardHeight));
-        setBackground(Color.BLUE);
+        setBackground(Color.LIGHT_GRAY);
         addKeyListener(this);
         setFocusable(true);
     }

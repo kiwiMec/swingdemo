@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+import javax.swing.JFrame;
 
 import com.acme.Food.State;
 
@@ -23,10 +24,13 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     Random random;
     Settings settings;
     Timer actionLoop;
+    JFrame frame;
+    int fruitEaten;
 
-    Board(Settings settings) {
+    Board(Settings settings, JFrame frame) {
 
         this.settings = settings;
+        this.frame = frame;
 
         setPreferredSize(new Dimension(settings.getBoardWidth(), settings.getBoardHeight()));
         setBackground(Color.darkGray);
@@ -42,10 +46,20 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     }
 
     private void addInitialPieces() {
+        fruitEaten = 0;
+        frame.setTitle("Snakegame: fruit eaten = " + fruitEaten);
         pieces = new ArrayList<Piece>();
         pieces.add(new Walls(settings));
-        pieces.add(new Snake(new Tile(10, 10, settings.getTileWidth(), settings.getTileHeight())));
+        pieces.add(new Snake(getUnoccupiedTile()));
         addFood();
+    }
+
+    public Tile getUnoccupiedTile() {
+        Tile tile = getRandomTile();
+        while (isOccupied(tile)) {
+            tile = getRandomTile();
+        }
+        return tile;
     }
 
     private Tile getRandomTile() {
@@ -93,6 +107,12 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         switch (keyEvent.getKeyCode()) {
+            // exit the game
+            case KeyEvent.VK_Q:
+                if(keyEvent.isMetaDown()){
+                    System.exit(0);
+                }
+                break;
             // restart the game
             case KeyEvent.VK_R:
                 pieces.clear();
@@ -133,6 +153,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
                 if (food.getState() == State.EATEN) {
                     pieces.remove(piece);
                     addFood();
+                    fruitEaten++;
+                    frame.setTitle("Snakegame: fruit eaten = " + fruitEaten);
                 }
             }
         }
