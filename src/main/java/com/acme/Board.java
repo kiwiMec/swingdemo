@@ -25,7 +25,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     Settings settings;
     Timer actionLoop;
     JFrame frame;
-    int fruitEaten;
+    int foodEaten;
 
     Board(Settings settings, JFrame frame) {
 
@@ -38,12 +38,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         this.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent arg0) {
-                frame.setTitle("Snakegame: fruit eaten = " + fruitEaten);
+                frame.setTitle("Snakegame: fruit eaten = " + foodEaten);
             }
             public void focusLost(FocusEvent focusEvent) {
             }
         });
-
 
         random = new Random();
 
@@ -54,8 +53,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     }
 
     private void addInitialPieces() {
-        fruitEaten = 0;
-        frame.setTitle("Snakegame: fruit eaten = " + fruitEaten);
+        foodEaten = 0;
+        frame.setTitle("Snakegame: fruit eaten = " + foodEaten);
         pieces = new ArrayList<Piece>();
         pieces.add(new Walls(settings));
         pieces.add(new Snake(getUnoccupiedTile()));
@@ -161,8 +160,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
                 if (food.getState() == Food.State.EATEN) {
                     pieces.remove(piece);
                     addFood();
-                    fruitEaten++;
-                    frame.setTitle("Snakegame: fruit eaten = " + fruitEaten);
+                    foodEaten++;
+                    frame.setTitle("Snakegame: fruit eaten = " + foodEaten);
                 }
             }
         }
