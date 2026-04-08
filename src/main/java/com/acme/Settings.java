@@ -15,12 +15,11 @@ public class Settings extends JPanel implements KeyListener {
     private final JPanel cards;
     private int boardWidth, boardHeight, tileWidth, tileHeight, numberOfSnakes;
     private boolean usePills;
-    private JFrame frame;
-
+    
+   
     Settings(JPanel cards, JFrame frame) {
         // store the initial settings
         this.cards = cards;
-        this.frame = frame;
         this.boardWidth = 600;
         this.boardHeight = 600;
         this.tileWidth = 25;

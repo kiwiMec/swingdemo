@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
 public class Snake implements Piece {
 
     private Direction direction;
@@ -14,7 +15,7 @@ public class Snake implements Piece {
     private LinkedList<Tile> body;
     private boolean isAlive;
     private boolean isCollision;
-    private int foodEaten;
+    
 
     Snake(Tile head) {
         this.head = head;
@@ -22,7 +23,7 @@ public class Snake implements Piece {
         direction = Direction.NONE;
         isAlive = true;
         isCollision = false;
-        foodEaten = 0;
+        
     }
 
     private final void eat(Food food) {
@@ -44,9 +45,6 @@ public class Snake implements Piece {
         isAlive = false;
     }
 
-    public int getFoodEaten() {
-        return foodEaten;
-    }
 
     @Override
     public final boolean isOn(Tile tile) {
@@ -72,7 +70,6 @@ public class Snake implements Piece {
                         case FOOD:
                             Food food = (Food) (piece);
                             eat(food);
-                            foodEaten++;
                             break;
                         case SNAKE:
                             die();

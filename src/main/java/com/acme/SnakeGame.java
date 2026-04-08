@@ -2,12 +2,13 @@ package com.acme;
 
 import java.awt.CardLayout;
 import java.awt.Color;
- import javax.swing.JFrame;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public final class SnakeGame {
-
     public static void main(String[] args) {
+
+        
 
         // create the window
         JFrame frame = new JFrame("SnakeGame");
