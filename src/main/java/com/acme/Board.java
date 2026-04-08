@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.Graphics;
@@ -25,7 +23,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     Settings settings;
     Timer actionLoop;
     JFrame frame;
-    int foodEaten;
+    
 
     Board(Settings settings, JFrame frame) {
 
@@ -36,13 +34,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         setBackground(Color.darkGray);
         addKeyListener(this);
         setFocusable(true);
-        this.addFocusListener(new FocusListener() {
-            public void focusGained(FocusEvent arg0) {
-                frame.setTitle("Snakegame: fruit eaten = " + foodEaten);
-            }
-            public void focusLost(FocusEvent focusEvent) {
-            }
-        });
+        
 
         random = new Random();
 
@@ -53,8 +45,6 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     }
 
     private void addInitialPieces() {
-        foodEaten = 0;
-        frame.setTitle("Snakegame: fruit eaten = " + foodEaten);
         pieces = new ArrayList<Piece>();
         pieces.add(new Walls(settings));
         pieces.add(new Snake(getUnoccupiedTile()));
@@ -160,8 +150,8 @@ public class Board extends JPanel implements ActionListener, KeyListener {
                 if (food.getState() == Food.State.EATEN) {
                     pieces.remove(piece);
                     addFood();
-                    foodEaten++;
-                    frame.setTitle("Snakegame: fruit eaten = " + foodEaten);
+                    
+                    
                 }
             }
         }
@@ -176,4 +166,6 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         /* not needed */ }
+
+    
 }
