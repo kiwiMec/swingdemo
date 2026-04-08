@@ -6,11 +6,11 @@ import java.awt.*;
 public class Score {
     private int score;
     private int highScore;
-
+    private static final String HIGH_SCORE_FILE = "highscore.txt"; 
     
     public Score() {
         this.score = 0;
-        
+        this.highScore = loadHighScore();
     }
 
     
@@ -18,6 +18,7 @@ public class Score {
         score++;
         if (score > highScore) {
             highScore = score; 
+            saveHighScore();
         }
     }
 
@@ -36,6 +37,24 @@ public class Score {
         g.setColor(Color.white);
         g.drawString("Score: " + score, tileSize - 16, tileSize);
         g.drawString("High Score: " + highScore, tileSize - 16, tileSize * 2);
+    }
+
+     private void saveHighScore() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(HIGH_SCORE_FILE))) {
+            writer.write(Integer.toString(highScore)); 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    
+    private int loadHighScore() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(HIGH_SCORE_FILE))) {
+            return Integer.parseInt(reader.readLine()); 
+        } catch (IOException | NumberFormatException e) {
+            
+            return 0;
+        }
     }
 
 }
