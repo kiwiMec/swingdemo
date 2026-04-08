@@ -101,16 +101,11 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         pieces.forEach(piece -> {
             piece.paint(graphics);
         });
-        draw(graphics);
+        score.displayScore(graphics, settings.getTileWidth());
     }
 
     
 
-    public void draw(Graphics graphics) {
-        score.displayScore(graphics, settings.getTileWidth());
-        
-        
-    }
 
     @Override
     public void keyPressed(KeyEvent keyEvent) {

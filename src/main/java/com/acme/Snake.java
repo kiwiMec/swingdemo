@@ -15,7 +15,7 @@ public class Snake implements Piece {
     private LinkedList<Tile> body;
     private boolean isAlive;
     private boolean isCollision;
-    private Score score;
+    
 
     Snake(Tile head) {
         this.head = head;
@@ -23,7 +23,7 @@ public class Snake implements Piece {
         direction = Direction.NONE;
         isAlive = true;
         isCollision = false;
-        score = new Score();
+        
     }
 
     private final void eat(Food food) {
