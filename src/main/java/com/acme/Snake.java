@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+
 public class Snake implements Piece {
 
     private Direction direction;
@@ -69,7 +70,6 @@ public class Snake implements Piece {
                         case FOOD:
                             Food food = (Food) (piece);
                             eat(food);
-                            score.increaseScore();
                             break;
                         case SNAKE:
                             die();

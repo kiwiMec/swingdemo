@@ -1,5 +1,6 @@
 package com.acme;
-
+import java.io.*;
+import java.awt.*;
 
 
 public class Score {
@@ -17,7 +18,6 @@ public class Score {
         score++;
         if (score > highScore) {
             highScore = score; 
-            System.out.println(score);
         }
     }
 
@@ -31,6 +31,12 @@ public class Score {
         return score;
     }
 
+    public void displayScore(Graphics g, int tileSize) {
+        g.setFont(new Font("Arial", Font.PLAIN, 16));
+        g.setColor(Color.white);
+        g.drawString("Score: " + score, tileSize - 16, tileSize);
+        g.drawString("High Score: " + highScore, tileSize - 16, tileSize * 2);
+    }
 
 }
     

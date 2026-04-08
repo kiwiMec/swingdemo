@@ -23,6 +23,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     Settings settings;
     Timer actionLoop;
     JFrame frame;
+    private Score score;
     
 
     Board(Settings settings, JFrame frame) {
@@ -35,6 +36,7 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         setFocusable(true);
         
+        score = new Score();
 
         random = new Random();
 
@@ -99,6 +101,15 @@ public class Board extends JPanel implements ActionListener, KeyListener {
         pieces.forEach(piece -> {
             piece.paint(graphics);
         });
+        draw(graphics);
+    }
+
+    
+
+    public void draw(Graphics graphics) {
+        score.displayScore(graphics, settings.getTileWidth());
+        
+        
     }
 
     @Override
@@ -150,13 +161,15 @@ public class Board extends JPanel implements ActionListener, KeyListener {
                 if (food.getState() == Food.State.EATEN) {
                     pieces.remove(piece);
                     addFood();
-                    
+                    score.increaseScore();
+                    System.out.println(score.getCurrentScore());
                     
                 }
             }
         }
         // then repaint everything
         repaint();
+        
     }
 
     @Override
@@ -167,5 +180,5 @@ public class Board extends JPanel implements ActionListener, KeyListener {
     public void keyReleased(KeyEvent e) {
         /* not needed */ }
 
-    
+   
 }
